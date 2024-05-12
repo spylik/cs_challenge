@@ -55,7 +55,34 @@ sort_tasks_test_() ->
                             )
                         )
                     end
+                },
+                {<<"More deep nested tests">>,
+                    fun() ->
+                        Expected =
+                            [
+                                #{name => <<"task-1">>, command => <<"touch /tmp/file1">>},
+                                #{name => <<"task-3">>, command => <<"echo 'Hello World!' > /tmp/file1">>},
+                                #{name => <<"task-2">>, command => <<"cat /tmp/file1">>},
+                                #{name => <<"task-4">>, command => <<"rm /tmp/file1">>},
+                                #{name => <<"task-6">>, command => <<"uptime">>}
+                            ],
+
+                        ?assertEqual(
+                            Expected,
+                            ?TESTMODULE:sort_tasks(
+                                [
+                                    #{name => <<"task-6">>, command => <<"uptime">>, requires => [<<"task-4">>]},
+                                    #{name => <<"task-2">>, command => <<"cat /tmp/file1">>, requires => [<<"task-3">>]},
+                                    #{name => <<"task-3">>, command => <<"echo 'Hello World!' > /tmp/file1">>, requires => [<<"task-1">>]},
+                                    #{name => <<"task-1">>, command => <<"touch /tmp/file1">>},
+                                    #{name => <<"task-4">>, command => <<"rm /tmp/file1">>, requires => [<<"task-2">>, <<"task-3">>]}
+                                ]
+                            )
+                        )
+
+                    end
                 }
+
             ]
         }
     }.

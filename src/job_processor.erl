@@ -6,10 +6,8 @@
     -compile(nowarn_export_all).
 -endif.
 
--export([process_tasks/2]).
-
 -type task_name()   :: binary().
--type mode()        :: sorted |  bash_script.
+-type reply_mode()  :: sorted |  bash_script.
 
 -type task()        :: #{
                         name := task_name(),
@@ -17,9 +15,13 @@
                         requires => [task_name()]
                     }.
 
+-export([process_tasks/2]).
+
+-export_type([reply_mode/0]).
+
 -spec process_tasks(JsonAsBinary, Mode) -> Result when
     JsonAsBinary    :: binary(),
-    Mode            :: mode(),
+    Mode            :: reply_mode(),
     Result          :: {ok, binary()} | {error, term()}.
 
 process_tasks(JsonAsBinary, Mode) ->
@@ -33,7 +35,7 @@ process_tasks(JsonAsBinary, Mode) ->
 % =========================== Private helpers ==================================
 
 -spec produce_output(Mode, SortedTasks) -> Result when
-    Mode        :: mode(),
+    Mode        :: reply_mode(),
     SortedTasks :: [task()],
     Result      :: {ok, binary()} | {error, term()}.
 

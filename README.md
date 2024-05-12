@@ -1,4 +1,4 @@
-This is naive implementation of a challange defined in "CraftingSoftware coding challenge for Erlang Engineer.pdf"
+This is naive implementation of a challenge defined in "CraftingSoftware coding challenge for Erlang Engineer.pdf"
 
 It contain a simple Erlang HTTP service which works on port 4000 and accept http POST requests with json payload in body.
 

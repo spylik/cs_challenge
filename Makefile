@@ -11,10 +11,10 @@ export REBAR_GIT_CLONE_OPTIONS
 # --------------------------------------------------------------------
 
 # default mode
-#ERLC_OPTS += +warn_export_all +warn_export_vars +warn_unused_import +warn_untyped_record
-#ERLC_OPTS += +warn_missing_spec_all
-#ERLC_OPTS += -Werror
-#ERLC_OPTS += +debug_info
+ERLC_OPTS += +warn_export_all +warn_export_vars +warn_unused_import +warn_untyped_record
+ERLC_OPTS += +warn_missing_spec_all
+ERLC_OPTS += -Werror
+ERLC_OPTS += +debug_info
 
 # --------------------------------------------------------------------
 #  # Dependencies.
@@ -42,7 +42,6 @@ SHELL_OPTS = -mode interactive -kernel shell_history enabled -pa ebin/ test/ -I 
 # --------------------------------------------------------------------
 
 RELX = deps/relx/relx
-RELX_REPLACE_OS_VARS = true
 
 # --------------------------------------------------------------------
 # We using erlang.mk

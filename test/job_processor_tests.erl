@@ -108,6 +108,17 @@ sort_tasks_test_() ->
                 },
                 {<<"Circular deps tests">>,
                     fun() ->
+                        ?assertEqual({error, {circular_dependency,<<"task-1">>}}, ?TESTMODULE:sort_tasks(
+                                [
+                                    #{name => <<"task-1">>, command => <<"echo 'task-1'">>, requires => [<<"task-2">>]},
+                                    #{name => <<"task-2">>, command => <<"echo 'task-2'">>, requires => [<<"task-3">>]},
+                                    #{name => <<"task-3">>, command => <<"echo 'task-3'">>, requires => [<<"task-1">>]}
+                                ]
+                        ))
+                    end
+                },
+                {<<"Circular deps tests">>,
+                    fun() ->
                         ?assertEqual({error, {wrong_reference_in_required,<<"task-5">>}}, ?TESTMODULE:sort_tasks(
                                 [
                                     #{name => <<"task-1">>, command => <<"echo 'task-1'">>},

@@ -76,12 +76,12 @@ keyed(Tasks) ->
     end, #{}, Tasks).
 
 -spec sort(Task, KeyedMap, Acc, Seen, CurrentPath) -> Result when
-    Task                :: task(),
-    KeyedMap            :: #{task_name() => task()},
-    Acc                 :: [task()],
-    Seen                :: [task_name()],
-    CurrentPath         :: [task_name()],
-    Result              :: {task_name(), [task_name()]}.
+    Task        :: task(),
+    KeyedMap    :: #{task_name() => task()},
+    Acc         :: [task()],
+    Seen        :: [task_name()],
+    CurrentPath :: [task_name()],
+    Result      :: {task_name(), [task_name()]}.
 
 sort(#{name := Name} = Task, KeyedMap, Acc, Seen, CurrentPath) ->
     case lists:member(Name, CurrentPath) of

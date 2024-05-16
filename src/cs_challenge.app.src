@@ -1,0 +1,19 @@
+{application, cs_challenge, [
+    {description, "Job Processor"},
+    {vsn, "git"},
+    {modules, []},
+    {registered, [cs_challenge]},
+    {applications, [
+        kernel,
+        stdlib,
+        inets,
+        ranch,
+        cowboy,
+        sasl
+    ]},
+    {included_applications, [
+        thoas
+    ]},
+    {mod, {cs_challenge_app, []}},
+    {env, []}
+]}.

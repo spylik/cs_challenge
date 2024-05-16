@@ -1,0 +1,41 @@
+name: Test
+
+on: push
+
+jobs:
+  test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Cancel previous run for the current branch
+        uses: styfle/cancel-workflow-action@0.6.0
+        with:
+          access_token: ${{ github.token }}
+  
+      - uses: actions/checkout@v3
+  
+      - name: Load enviroment variables (.env and .tools-versions)
+        run: sh ./.envrc
+        id: dotenvs
+  
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ steps.dotenvs.outputs.ERLANG_VERSION }}
+  
+      - name: Restore dependencies cache. With fallback to previous version of mix.lock hash (we cleaning app folder anyway).
+        uses: actions/cache@v2
+        with:
+          path: |
+            deps
+          key: ${{ runner.os }}-erlang-${{ steps.dotenvs.outputs.ERLANG_VERSION }}-makefilehash-${{ hashFiles('**/Makefile') }}
+          restore-keys: ${{ runner.os }}-erlang-${{ steps.dotenvs.outputs.ERLANG_VERSION }}-makefilehash-
+  
+      - name: Install dependencies and compile it
+        run: make
+  
+      - name: Run dialyzer
+        run: make dialyze
+  
+      - name: Run tests
+        run: make tests
